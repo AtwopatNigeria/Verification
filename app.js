@@ -12,17 +12,32 @@ async function verifyMember(idOverride) {
     return;
   }
 
-  let badge = data.status === "Active"
-  ? `<img src="verify.png" class="badge-inline">`
-  : `<img src="cancel.png" class="badge-inline">`;
+  /* NORMALIZE STATUS */
+  let status = (data.status || "").toString().trim().toLowerCase();
 
-  let nameIcon = data.status === "Active"
-    ? ""
-    : `<img src="cancel.png" width="20" style="vertical-align:middle;">`;
+  let statusDisplay = "";
 
+  /* STATUS MAPPING */
+  if (status === "active") {
+    statusDisplay = `<img src="verify.png" class="badge-img">`;
+
+  } else if (status === "pending") {
+    statusDisplay = `🟡`;
+
+  } else if (status === "suspended") {
+    statusDisplay = `🟠`;
+
+  } else if (status === "rejected") {
+    statusDisplay = `<img src="cancel.png" class="badge-img">`;
+
+  } else {
+    statusDisplay = `⚪ Unknown`;
+  }
+
+  /* TELEGRAM LOGIC */
   let telegramButton = "";
 
-  if (data.status === "Active") {
+  if (status === "active") {
     telegramButton = `
       <a href="https://t.me/+0qCgEbssFKw3ZmM0">
         <button>Join Official Telegram</button>
@@ -37,21 +52,34 @@ async function verifyMember(idOverride) {
     `;
   }
 
+  /* FINAL UI */
   resultDiv.innerHTML = `
     <div class="card">
 
       <h3>ATWOPAT MEMBER</h3>
 
+      <!-- PASSPORT PHOTO -->
       <img src="${data.photo}" width="120"><br><br>
 
-      <b>Name:</b> ${data.name} ${badge} <br>
-      <b>Role:</b> ${data.role} <br>
-      <b>Member ID:</b> ${data.id} <br>
-      <b>Status:</b> ${nameIcon} <br><br>
+      <!-- NAME + BADGE -->
+      <b>Name:</b> ${data.name} ${statusDisplay} <br>
 
+      <!-- ROLE -->
+      <b>Role:</b> ${data.role} <br>
+
+      <!-- MEMBER ID -->
+      <b>Member ID:</b> ${data.id} <br>
+
+      <!-- STATUS -->
+      <b>Status:</b> ${data.status} <br><br>
+
+      <!-- REGISTRATION DATE -->
       <b>Registration Date:</b> ${data.timestamp} <br>
+
+      <!-- EXPIRY DATE -->
       <b>Expiry Date:</b> ${data.expiry} <br><br>
 
+      <!-- QR CODE -->
       <img src="${data.qr}" width="120"><br><br>
 
       ${telegramButton}
