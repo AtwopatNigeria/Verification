@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ATWOPAT Verification</title>
 
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+
+  <!-- MODE TOGGLE -->
+  <button class="mode-btn" onclick="toggleMode()">🌙 / ☀️</button>
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="logo.png" width="80">
+
+    <h2>ASSOCIATION OF TABLE WATER OPERATORS AND TECHNICIANS</h2>
+    <h3>ATWOPAT MEMBER VERIFICATION 🔍</h3>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="memberId" placeholder="Enter Member ID or Scan QR">
+    <button onclick="verifyMember()">Search 🔍</button>
+  </div>
+
+  <!-- APPLY -->
+  <div>
+    <a href="https://atwopat.short.gy/HwZtj7">
+      <button>Apply as New Member</button>
+    </a>
+  </div>
+
+  <!-- SCANNER -->
+  <div>
+    <button onclick="startScanner()">Scan QR 📷</button>
+    <div id="reader" style="width:300px;margin:auto;"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+
+  <!-- MODE SCRIPT -->
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+  </script>
+
+</body>
+  </html>
