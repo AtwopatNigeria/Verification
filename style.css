@@ -1,0 +1,60 @@
+body {
+  font-family: Arial;
+  background: white;
+  color: black;
+  text-align: center;
+  transition: 0.10s;
+}
+
+.dark {
+  background: #111;
+  color: white;
+}
+
+.header {
+  background: #0b3d91;
+  color: white;
+  padding: 20px;
+}
+
+.search-box {
+  margin: 15px;
+}
+
+input {
+  padding: 10px;
+  width: 250px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  background: #0b3d91;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.card {
+  background: white;
+  width: 320px;
+  margin: auto;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+/* BADGES IMAGE STYLE */
+.badge-img {
+  width: 10px;
+  margin: 8px 0;
+}
+
+/* MODE BUTTON */
+.mode-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 8px 10px;
+  border-radius: 15px;
+}
