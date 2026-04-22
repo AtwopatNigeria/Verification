@@ -13,8 +13,8 @@ async function verifyMember(idOverride) {
   }
 
   let badge = data.status === "Active"
-    ? `<img src="verify.png" class="badge-img">`
-    : `<img src="cancel.png" class="badge-img">`;
+  ? `<img src="verify.png" class="badge-inline">`
+  : `<img src="cancel.png" class="badge-inline">`;
 
   let nameIcon = data.status === "Active"
     ? ""
@@ -42,13 +42,12 @@ async function verifyMember(idOverride) {
 
       <h3>ATWOPAT MEMBER</h3>
 
-      ${nameIcon}
-
       <img src="${data.photo}" width="120"><br><br>
 
       <b>Name:</b> ${data.name} ${badge} <br>
       <b>Role:</b> ${data.role} <br>
-      <b>Member ID:</b> ${data.id} <br><br>
+      <b>Member ID:</b> ${data.id} <br>
+      <b>Status:</b> ${nameIcon} <br><br>
 
       <b>Registration Date:</b> ${data.timestamp} <br>
       <b>Expiry Date:</b> ${data.expiry} <br><br>
