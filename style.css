@@ -19,12 +19,12 @@ body.dark {
   color: white;
 }
 
-/* HEADER */
+/* HEADER 
 .header {
   background: linear-gradient(90deg, #5bbcff, #2f9fff);
   color: white;
   padding: 20px;
-}
+} */
 
 /* SEARCH BOX */
 .search-box {
