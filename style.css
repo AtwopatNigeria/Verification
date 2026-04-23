@@ -49,7 +49,7 @@ header {
 /* LOGO */
 .logo {
   width: 180px;
-  max-width: 60%;
+  max-width: 40%;
   height: auto;
   display: block;
   margin: 10px auto;
@@ -128,6 +128,30 @@ button:hover {
   text-align: left;
 }
 
+/* INFO TITLE (ADDED) */
+.info-title {
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+/* SUBTITLE (ADDED + FIXED MERGE) */
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #ddd;
+  font-size: 14px;
+}
+
+.subtitle span {
+  flex: 1;
+  height: 1px;
+  max-width: 80px;
+  background: linear-gradient(to right, transparent, white, transparent);
+}
+
 /* CARD */
 .card {
   background: rgba(255,255,255,0.95);
@@ -192,7 +216,7 @@ a button {
 @media screen and (max-width: 500px) {
 
   .logo {
-    width: 110px;
+    width: 180px;
   }
 
   .title-box h1 {
@@ -202,5 +226,4 @@ a button {
   .card {
     width: 90%;
   }
-
 }
