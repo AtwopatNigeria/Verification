@@ -12,6 +12,14 @@ body {
   background-size: cover;
 }
 
+/* INFORMATION */
+.info {
+  background: rgba(0, 0, 0, 0.5);
+  margin: 40px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
 
 /* DARK MODE */
 body.dark {
@@ -19,12 +27,12 @@ body.dark {
   color: white;
 }
 
-/* HEADER 
-.header {
-  background: linear-gradient(90deg, #5bbcff, #2f9fff);
-  color: white;
-  padding: 20px;
-} */
+/* HEADER */
+header {
+ background: transparent;
+ color: white;
+ padding: 20px;
+} 
 
 /* SEARCH BOX */
 .search-box {
