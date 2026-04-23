@@ -31,12 +31,12 @@ body.dark {
 header {
  background: transparent;
  color: white;
- padding: 20px;
+ padding: 50px;
 } 
 
 /* SEARCH BOX */
 .search-box {
-  margin: 15px;
+  margin: 30px;
 }
 
 input {
@@ -79,9 +79,9 @@ button:hover {
   background: white;
   width: 320px;
   margin: 20px auto;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
+  padding: 45px;
+  border-radius: 30px;
+  box-shadow: 0 0 30px #ccc;
 }
 
 /* DARK CARD */
