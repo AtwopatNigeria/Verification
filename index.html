@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ATWOPAT Verification</title>
 
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <!-- SPINNER STYLE -->
+  <style>
+    #loader {
+      display: none;
+      margin: 15px auto;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -14,66 +35,102 @@
   <button class="mode-btn" onclick="toggleMode()">🌙 / ☀️</button>
 
   <!-- HEADER -->
-  <div class="header">
-    <img src="logo.png" width="150">
+  <header>
 
-    <h2>ASSOCIATION OF TABLE WATER OPERATORS AND TECHNICIANS</h2>
-    <h3>ATWOPAT MEMBER VERIFICATION</h3>
-  </div>
+    <!-- LOGO -->
+    <img src="logo.png" class="logo">
 
-  <!-- SEARCH -->
-  <div class="search-box">
-    <input type="text" id="memberId" placeholder="Enter Member ID or Scan QR">
-    <button onclick="verifyMember()">Search 🔍</button>
-  </div>
+    <div class="title-box">
+      <h1>ASSOCIATION OF TABLE WATER OPERATORS AND TECHNICIANS</h1>
 
-  <!-- APPLY -->
-  <div>
-    <a href="https://atwopat.short.gy/HwZtj7">
-      <button>Apply as New Member</button>
-    </a>
-  </div>
+      <p class="subtitle">
+        <span></span>
+        ATWOPAT MEMBER VERIFICATION
+        <span></span>
+      </p>
 
-  <!-- SCANNER -->
-  <div>
-    <button onclick="startScanner()">Scan QR 📷</button>
-    <div id="reader" style="width:300px;margin:auto;"></div>
-  </div>
+    </div>
 
-  <!-- RESULT -->
-  <div id="result"></div>
+  </header>
 
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <input type="text" id="memberId" placeholder="Enter Member ID or Scan QR">
+      <button onclick="searchWithLoader()">Search 🔍</button>
+    </div>
+
+    <!-- LOADER -->
+    <div id="loader"></div>
+
+    <!-- APPLY BUTTON -->
+    <div>
+      <a href="https://atwopat.short.gy/HwZtj7">
+        <button>Apply as New Member</button>
+      </a>
+    </div>
+
+    <!-- SCAN BUTTON -->
+    <div>
+      <button onclick="startScanner()">Scan QR 📷</button>
+      <div id="reader"></div>
+    </div>
+
+    <!-- INFO SECTION -->
+    <section class="info">
+
+      <h3 class="info-title">ℹ️ IMPORTANT INFORMATION</h3>
+
+      <ul>
+        <li>✔ All members must verify their ID using the search above</li>
+        <li>✔ QR codes are unique and cannot be duplicated</li>
+        <li>✔ Membership status must be active for validation</li>
+        <li>✔ For concerns, please contact ATWOPAT administration</li>
+      </ul>
+
+    </section>
+
+    <!-- RESULT -->
+    <div id="result"></div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 ATWOPAT. All rights reserved.</p>
+  </footer>
+
+  <!-- SCRIPTS -->
   <script src="config.js"></script>
   <script src="app.js"></script>
 
-  <!-- MODE SCRIPT -->
   <script>
     function toggleMode() {
       document.body.classList.toggle("dark");
     }
+
+    // WRAPPER FUNCTION (does NOT remove original verifyMember)
+    function searchWithLoader() {
+      const loader = document.getElementById("loader");
+      const button = document.querySelector(".search-box button");
+
+      // show loader
+      loader.style.display = "block";
+      button.disabled = true;
+
+      // random delay between 3–5 seconds
+      const delay = Math.floor(Math.random() * 2000) + 3000;
+
+      setTimeout(() => {
+        verifyMember(); // original function stays untouched
+
+        loader.style.display = "none";
+        button.disabled = false;
+      }, delay);
+    }
   </script>
 
-  <!-- MODE SCRIPT 
-<section class="info">
-  <h2>About ATWOPAT</h2>
-  <p>
-    The Association of Table Water Operators and Technicians (ATWOPAT)
-    is committed to maintaining standards, ensuring safe water production,
-    and supporting professionals in the industry.
-  </p>
-
-  <h3>Important Information</h3>
-  <ul>
-    <li>All members must verify their ID using the search above</li>
-    <li>QR codes are unique and cannot be duplicated</li>
-    <li>Active Members are expected to request for their Membership ID Card Immediately</li>
-    <li>Active Members Must join the Association Telegram Group for Quick Update</li>
-  </ul>
-</section> -->
-
 </body>
-
-<footer>
-  <p>© 2026 ATWOPAT. All rights reserved.</p>
-</footer>
-  </html>
+</html>
