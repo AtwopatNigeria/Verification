@@ -21,6 +21,27 @@ body {
 }
 
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* pushes footer down */
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+}
+
 /* DARK MODE */
 body.dark {
   background: #111;
