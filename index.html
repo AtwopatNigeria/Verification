@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <!-- SPINNER STYLE -->
   <style>
     #loader {
       display: none;
@@ -26,111 +25,93 @@
       100% { transform: rotate(360deg); }
     }
   </style>
-
 </head>
 
 <body>
 
-  <!-- MODE TOGGLE -->
-  <button class="mode-btn" onclick="toggleMode()">🌙 / ☀️</button>
+<button class="mode-btn" onclick="toggleMode()">🌙 / ☀️</button>
 
-  <!-- HEADER -->
-  <header>
+<header>
+  <img src="logo.png" class="logo">
 
-    <!-- LOGO -->
-    <img src="logo.png" class="logo">
+  <div class="title-box">
+    <h1>ASSOCIATION OF TABLE WATER OPERATORS AND TECHNICIANS</h1>
 
-    <div class="title-box">
-      <h1>ASSOCIATION OF TABLE WATER OPERATORS AND TECHNICIANS</h1>
+    <p class="subtitle">
+      <span></span>
+      ATWOPAT MEMBER VERIFICATION
+      <span></span>
+    </p>
+  </div>
+</header>
 
-      <p class="subtitle">
-        <span></span>
-        ATWOPAT MEMBER VERIFICATION
-        <span></span>
-      </p>
+<main>
 
-    </div>
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="memberId" placeholder="Enter Member ID or Scan QR">
+    <button onclick="searchWithLoader()">Search 🔍</button>
+  </div>
 
-  </header>
+  <div id="loader"></div>
 
-  <!-- MAIN CONTENT -->
-  <main>
+  <!-- APPLY -->
+  <div>
+    <a href="https://atwopat.short.gy/HwZtj7">
+      <button>Apply as New Member</button>
+    </a>
+  </div>
 
-    <!-- SEARCH -->
-    <div class="search-box">
-      <input type="text" id="memberId" placeholder="Enter Member ID or Scan QR">
-      <button onclick="searchWithLoader()">Search 🔍</button>
-    </div>
+  <!-- SCAN -->
+  <div>
+    <button onclick="startScanner()">Scan QR 📷</button>
+    <div id="reader"></div>
+  </div>
 
-    <!-- LOADER -->
-    <div id="loader"></div>
+  <!-- RESULT -->
+  <div id="result"></div>
 
-    <!-- APPLY BUTTON -->
-    <div>
-      <a href="https://atwopat.short.gy/HwZtj7">
-        <button>Apply as New Member</button>
-      </a>
-    </div>
+  <!-- INFO -->
+  <section class="info">
+    <h3 class="info-title">ℹ️ IMPORTANT INFORMATION</h3>
+    <ul>
+      <li>✔ All members must verify their ID using the search above</li>
+      <li>✔ QR codes are unique and cannot be duplicated</li>
+      <li>✔ Membership status must be active for validation</li>
+      <li>✔ For concerns, please contact ATWOPAT Executives</li>
+    </ul>
+  </section>
 
-    <!-- SCAN BUTTON -->
-    <div>
-      <button onclick="startScanner()">Scan QR 📷</button>
-      <div id="reader"></div>
-    </div>
+</main>
 
-    <!-- INFO SECTION -->
-    <section class="info">
+<footer>
+  <p>© 2026 ATWOPAT. All rights reserved.</p>
+</footer>
 
-      <h3 class="info-title">ℹ️ IMPORTANT INFORMATION</h3>
+<script src="config.js"></script>
+<script src="app.js"></script>
 
-      <ul>
-        <li>✔ All members must verify their ID using the search above</li>
-        <li>✔ QR codes are unique and cannot be duplicated</li>
-        <li>✔ Membership status must be active for validation</li>
-        <li>✔ For concerns, please contact ATWOPAT administration</li>
-      </ul>
+<script>
+function toggleMode() {
+  document.body.classList.toggle("dark");
+}
 
-    </section>
+function searchWithLoader() {
+  const loader = document.getElementById("loader");
+  const button = document.querySelector(".search-box button");
 
-    <!-- RESULT -->
-    <div id="result"></div>
+  loader.style.display = "block";
+  button.disabled = true;
 
-  </main>
+  const delay = Math.floor(Math.random() * 2000) + 3000;
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 ATWOPAT. All rights reserved.</p>
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script src="config.js"></script>
-  <script src="app.js"></script>
-
-  <script>
-    function toggleMode() {
-      document.body.classList.toggle("dark");
-    }
-
-    // WRAPPER FUNCTION (does NOT remove original verifyMember)
-    function searchWithLoader() {
-      const loader = document.getElementById("loader");
-      const button = document.querySelector(".search-box button");
-
-      // show loader
-      loader.style.display = "block";
-      button.disabled = true;
-
-      // random delay between 3–5 seconds
-      const delay = Math.floor(Math.random() * 2000) + 3000;
-
-      setTimeout(() => {
-        verifyMember(); // original function stays untouched
-
-        loader.style.display = "none";
-        button.disabled = false;
-      }, delay);
-    }
-  </script>
+  setTimeout(() => {
+    verifyMember();
+    loader.style.display = "none";
+    button.disabled = false;
+  }, delay);
+}
+</script>
 
 </body>
 </html>
