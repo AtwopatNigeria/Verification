@@ -5,76 +5,45 @@
   box-sizing: border-box;
 }
 
-/* BODY + BACKGROUND */
-html, body {
-  height: 100%;
-}
-
+/* BODY */
 body {
   font-family: Arial, sans-serif;
   color: #fff;
   text-align: center;
-
   background: url("bg.jpg") no-repeat center center fixed;
   background-size: cover;
-
   display: flex;
   flex-direction: column;
 }
 
-/* DARK OVERLAY (makes text readable) */
+/* OVERLAY */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.35);
   z-index: -1;
 }
 
-/* MAIN CONTENT PUSH */
 main {
   flex: 1;
-  padding: 20px;
-}
-
-/* HEADER */
-header {
-  background: transparent;
   padding: 20px;
 }
 
 /* LOGO */
 .logo {
   width: 180px;
-  max-width: 40%;
-  height: auto;
-  display: block;
   margin: 10px auto;
-  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.7));
 }
 
-/* TITLE BOX */
+/* TITLE */
 .title-box {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   padding: 15px;
-  margin: 15px auto;
   border-radius: 10px;
   width: 90%;
-  max-width: 600px;
-}
-
-.title-box h1 {
-  font-size: 18px;
-  color: #fff;
-  margin-bottom: 5px;
-}
-
-.title-box p {
-  font-size: 14px;
-  color: #ddd;
+  margin: 10px auto;
 }
 
 /* SEARCH */
@@ -85,13 +54,11 @@ header {
 input {
   padding: 12px;
   width: 260px;
-  max-width: 80%;
   border-radius: 6px;
   border: none;
-  outline: none;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
   padding: 10px 16px;
   margin: 6px;
@@ -99,27 +66,11 @@ button {
   color: #fff;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
-  transition: 0.25s;
 }
 
-button:hover {
-  background: #062a66;
-}
-
-/* MODE BUTTON */
-.mode-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.6);
-  font-size: 12px;
-}
-
-/* INFO BOX */
+/* INFO */
 .info {
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0,0,0,0.55);
   margin: 30px auto;
   padding: 20px;
   border-radius: 12px;
@@ -128,39 +79,67 @@ button:hover {
   text-align: left;
 }
 
-/* INFO TITLE (ADDED) */
 .info-title {
   border-bottom: 1px solid rgba(255,255,255,0.4);
-  padding-bottom: 8px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-/* SUBTITLE (ADDED + FIXED MERGE) */
-.subtitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #ddd;
-  font-size: 14px;
-}
+/* ===================== */
+/* 🔥 MEMBER CARD FIXED */
+/* ===================== */
 
-.subtitle span {
-  flex: 1;
-  height: 1px;
-  max-width: 80px;
-  background: linear-gradient(to right, transparent, white, transparent);
-}
-
-/* CARD */
 .card {
   background: rgba(255,255,255,0.95);
   color: #000;
   width: 320px;
   margin: 20px auto;
-  padding: 25px;
+  padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+/* TITLE */
+.card h2 {
+  margin-bottom: 10px;
+}
+
+/* PASSPORT (TOP CENTER) */
+.passport {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin: 10px auto;
+}
+
+/* DETAILS */
+.details {
+  margin-top: 10px;
+}
+
+.details p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin: 4px 0;
+}
+
+.details span {
+  text-align: right;
+}
+
+/* QR */
+.qr {
+  width: 140px;
+  margin: 15px auto;
+  display: block;
+}
+
+/* FOOTER */
+footer {
+  padding: 15px;
+  background: rgba(0,0,0,0.75);
 }
 
 /* DARK MODE */
@@ -173,57 +152,9 @@ body.dark .card {
   color: #fff;
 }
 
-/* PASSPORT */
-.card img {
-  border-radius: 10px;
-  width: 100%;
-}
-
-/* BADGE */
-.badge-img {
-  width: 18px;
-  height: 18px;
-  margin-left: 5px;
-  vertical-align: middle;
-}
-
-/* STATUS */
-.status-text {
-  font-weight: bold;
-  margin-left: 5px;
-}
-
-/* QR SCANNER */
-#reader {
-  margin-top: 10px;
-}
-
-/* FOOTER (LOCKED TO BOTTOM) */
-footer {
-  text-align: center;
-  padding: 15px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  font-size: 14px;
-}
-
-/* LINKS BUTTON FIX */
-a button {
-  text-decoration: none;
-}
-
-/* RESPONSIVE */
-@media screen and (max-width: 500px) {
-
-  .logo {
-    width: 180px;
-  }
-
-  .title-box h1 {
-    font-size: 16px;
-  }
-
-  .card {
-    width: 90%;
-  }
+/* MODE BUTTON */
+.mode-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
