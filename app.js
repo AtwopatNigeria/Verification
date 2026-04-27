@@ -14,8 +14,27 @@ async function verifyMember(idOverride) {
     let data = await response.json();
 
     if (!data || data.status === "NOT_FOUND" || data.status === "ERROR") {
-      resultDiv.innerHTML = "<p style='color:red;'>❌ Member not found or Invalid ID</p>";
+      resultDiv.innerHTML = "<p style='color:red;'>❌ Member not found</p>";
       return;
+    }
+
+    /* =============================================
+       🔥 IMAGE LINK TRANSFORMER (CRITICAL)
+       This converts your /view link into a direct img
+    ============================================= */
+    let rawPhoto = data.passport || '';
+    let directPhoto = "";
+
+    if (rawPhoto.includes("drive.google.com")) {
+        // This regex finds the ID between /d/ and /view
+        let fileId = rawPhoto.match(/\/d\/(.+?)\//);
+        if (fileId && fileId[1]) {
+            directPhoto = `https://lh3.googleusercontent.com/d/${fileId[1]}`;
+        } else {
+            directPhoto = rawPhoto; // Fallback
+        }
+    } else {
+        directPhoto = rawPhoto || 'default-avatar.png';
     }
 
     const member = {
@@ -24,7 +43,7 @@ async function verifyMember(idOverride) {
       state: data.state,
       role: data.role,
       statusValue: data.memberStatus,
-      photo: data.passport,
+      photo: directPhoto, 
       qr: data.qr,
       expiry: data.expiry,
       expired: data.expired
@@ -32,43 +51,39 @@ async function verifyMember(idOverride) {
 
     let currentStatus = (member.statusValue || "").toString().trim().toLowerCase();
     
-    // --- Badge & Button Logic ---
-    let nameBadge = ""; // This will go next to the name
+    let nameBadge = ""; 
     let telegramButton = "";
-    let statusText = member.statusValue || 'Unknown';
+    let statusText = "";
 
     if (member.expired) {
-      statusText = `<span style="color:red;">EXPIRED</span>`;
-      telegramButton = `<p style="color:red;">Your membership has expired.</p>`;
+      statusText = `<span style="color:red;">Expired</span>`;
+      telegramButton = `<p style="color:red;">Membership Expired.</p>`;
     } 
     else if (currentStatus === "active") {
-      // The badge image sized like an emoji
       nameBadge = `<img src="verify.png" style="width:18px; height:18px; vertical-align: middle; margin-left: 5px;">`;
-      statusText = `<span style="color:green;">Active</span>`;
+      statusText = `<span style="color:green; font-weight:bold;">Active</span>`;
       telegramButton = `
         <a href="https://t.me/+0qCgEbssFKw3ZmM0" target="_blank">
-          <button style="background-color: #0088cc; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+          <button style="background-color: #0088cc; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
             Join Official Telegram
           </button>
         </a>`;
-    } else if (currentStatus === "pending") {
-      statusText = `🟡 Pending`;
     } else {
+      statusText = member.statusValue || "Unknown";
       telegramButton = `<a href="mailto:support.atwopat@gmail.com"><button>Contact Support</button></a>`;
     }
 
     /* =========================
-       FINAL OUTPUT (Layout Adjusted)
+       FINAL OUTPUT
     ========================= */
     resultDiv.innerHTML = `
       <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; text-align: center; max-width: 350px; margin: auto; background: white;">
         <h3 style="margin-top:0;">ATWOPAT MEMBER</h3>
         
-        <img src="${member.photo || 'default-avatar.png'}" width="120" style="border-radius: 5px; border: 2px solid #eee;"><br><br>
+        <img src="${member.photo}" width="120" height="120" style="border-radius: 8px; border: 2px solid #eee; object-fit: cover;"><br><br>
 
         <div style="text-align: left; line-height: 1.8;">
           <b>Name:</b> ${member.name}${nameBadge} <br>
-          
           <b>State:</b> ${member.state} <br>
           <b>Role:</b> ${member.role} <br>
           <b>Member ID:</b> ${member.id} <br>
@@ -77,7 +92,7 @@ async function verifyMember(idOverride) {
         </div>
 
         <br>
-        <img src="${member.qr || ''}" width="100"><br><br>
+        <img src="${member.qr || ''}" width="100" style="border: 1px solid #eee; padding: 5px;"><br><br>
 
         ${telegramButton}
       </div>
