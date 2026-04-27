@@ -1,5 +1,4 @@
 async function verifyMember(idOverride) {
-  // 1. Get ID from input or parameter
   let id = idOverride || document.getElementById("memberId").value;
 
   if (!id) {
@@ -8,41 +7,22 @@ async function verifyMember(idOverride) {
   }
 
   const resultDiv = document.getElementById("result");
-  // Enhanced loading state
-  resultDiv.innerHTML = "<p style='color:#666; font-weight:bold;'>🔄 Verifying Member...</p>";
+  resultDiv.innerHTML = "<p style='color:#666;'>🔄 Verifying...</p>";
 
   try {
-    // 2. Fetch from Google Apps Script API
     let response = await fetch(API_URL + "?action=verify&id=" + encodeURIComponent(id));
     let data = await response.json();
 
-    console.log("API RESPONSE:", data); // Helpful for debugging
-
-    // 3. Handle 'Not Found' or Error
     if (!data || data.status === "NOT_FOUND" || data.status === "ERROR") {
-      resultDiv.innerHTML = `
-        <div style="background: rgba(255,0,0,0.1); padding: 15px; border-radius: 8px; border: 1px solid red;">
-          <p style='color:red; margin:0;'>❌ Member Not Found or ID Invalid</p>
-        </div>`;
+      resultDiv.innerHTML = "<p style='color:red;'>❌ Member not found</p>";
       return;
     }
 
-    /* =============================================
-       🔥 IMAGE LINK TRANSFORMER
-       Converts Drive URL to a direct viewable image
-    ============================================= */
+    // --- Image Link Transformer ---
     let rawPhoto = data.passport || '';
-    let directPhoto = "";
+    let fileId = rawPhoto.match(/\/d\/(.+?)\//);
+    let directPhoto = fileId ? `https://lh3.googleusercontent.com/d/${fileId[1]}` : 'default-avatar.png';
 
-    if (rawPhoto.includes("drive.google.com")) {
-        let fileId = rawPhoto.match(/\/d\/(.+?)\//);
-        // Using the high-res direct link format
-        directPhoto = fileId ? `https://lh3.googleusercontent.com/d/${fileId[1]}` : rawPhoto;
-    } else {
-        directPhoto = rawPhoto || 'default-avatar.png';
-    }
-
-    // 4. Map the data
     const member = {
       id: data.memberId,
       name: data.fullName,
@@ -56,98 +36,71 @@ async function verifyMember(idOverride) {
     };
 
     let currentStatus = (member.statusValue || "").toString().trim().toLowerCase();
-    
-    /* =============================================
-       BADGE & STATUS LOGIC
-    ============================================= */
     let nameBadge = ""; 
+    let statusText = "";
     let telegramButton = "";
-    let statusDisplay = "";
 
-    if (member.expired) {
-      statusDisplay = `<span style="color:#d93025; font-weight:bold;">Expired</span>`;
-      telegramButton = `<p style="color:#d93025; font-weight:bold;">Please contact Admin for renewal.</p>`;
-    } 
-    else if (currentStatus === "active") {
-      // Increased badge size slightly (22px) and kept inline
-      nameBadge = `<img src="verify.png" style="width:22px; height:22px; vertical-align: middle; margin-left: 8px; display: inline-block;">`;
-      
-      statusDisplay = `<span style="color:#1e8e3e; font-weight:bold;">Active</span>`;
-      
+    if (currentStatus === "active" && !member.expired) {
+      // Increased badge size to 24px for better visibility
+      nameBadge = `<img src="verify.png" style="width:24px; height:24px; margin-left: 8px;">`;
+      statusText = `<span style="color:green; font-weight:bold;">Active</span>`;
       telegramButton = `
         <a href="https://t.me/+0qCgEbssFKw3ZmM0" target="_blank" style="text-decoration:none;">
-          <button style="background-color: #0088cc; color: white; padding: 14px; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; font-weight:bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <button style="background:#0088cc; color:white; width:100%; padding:14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:15px;">
             Join Official Telegram
           </button>
         </a>`;
     } else {
-      statusDisplay = `<span style="font-weight:bold;">${member.statusValue || "Unknown"}</span>`;
-      telegramButton = `<a href="mailto:support.atwopat@gmail.com"><button>Contact Support</button></a>`;
+      statusText = `<span style="font-weight:bold;">${member.statusValue || 'N/A'}</span>`;
     }
 
     /* =============================================
-       FINAL UI OUTPUT (Upgraded Design)
+       FINAL UI OUTPUT (Modern Frosted Glass)
     ============================================= */
     resultDiv.innerHTML = `
       <div class="card" style="
-        border: 1px solid rgba(255,255,255,0.3); 
+        background: rgba(255, 255, 255, 0.75); /* Transparency */
+        backdrop-filter: blur(12px); /* Frosted effect */
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         padding: 25px; 
-        border-radius: 15px; 
-        text-align: center; 
-        max-width: 360px; 
-        margin: 20px auto; 
-        background: rgba(255, 255, 255, 0.85); /* 85% Transparent background */
-        backdrop-filter: blur(10px); /* Creates a modern frosted glass look */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        border-radius: 20px; 
+        max-width: 340px; 
+        margin: auto; 
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        font-family: sans-serif;">
         
-        <h2 style="margin-top:0; color:#222; font-size: 20px; text-transform: uppercase; letter-spacing: 1px;">ATWOPAT MEMBER</h2>
+        <h3 style="margin: 0 0 15px 0; color:#333; letter-spacing:1px;">ATWOPAT MEMBER</h3>
         
-        <div style="margin-bottom: 20px;">
-          <img src="${member.photo}" width="140" height="140" style="border-radius: 12px; border: 4px solid #fff; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        </div>
+        <img src="${member.photo}" width="140" height="140" style="border-radius: 15px; border: 4px solid white; object-fit: cover; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
 
-        <div style="text-align: left; line-height: 2; color: #333; font-size: 16px;">
+        <div style="text-align: left; color: #333; font-size: 16px;">
           
-          <div style="display: flex; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-            <b>Name:</b>&nbsp;<span>${member.name}</span>${nameBadge}
-          </div>
-          
-          <div style="border-bottom: 1px solid #eee; padding: 5px 0;">
-            <b>State:</b> ${member.state}
-          </div>
-          
-          <div style="border-bottom: 1px solid #eee; padding: 5px 0;">
-            <b>Role:</b> ${member.role}
-          </div>
-          
-          <div style="border-bottom: 1px solid #eee; padding: 5px 0;">
-            <b>Member ID:</b> ${member.id}
-          </div>
-          
-          <div style="border-bottom: 1px solid #eee; padding: 5px 0;">
-            <b>Status:</b> ${statusDisplay}
-          </div>
-          
-          <div style="padding: 5px 0;">
-            <b>Expiry:</b> ${member.expiry || 'N/A'}
+          <div style="display: flex; align-items: center; margin-bottom: 8px;">
+            <b style="min-width: 60px;">Name:</b>
+            <span style="display: flex; align-items: center; font-weight: 500;">
+              ${member.name}${nameBadge}
+            </span>
           </div>
 
+          <p style="margin: 8px 0;"><b>State:</b> ${member.state}</p>
+          <p style="margin: 8px 0;"><b>Role:</b> ${member.role}</p>
+          <p style="margin: 8px 0;"><b>Member ID:</b> ${member.id}</p>
+          <p style="margin: 8px 0;"><b>Status:</b> ${statusText}</p>
+          <p style="margin: 8px 0;"><b>Expiry:</b> ${member.expiry || 'N/A'}</p>
         </div>
 
         <div style="margin: 20px 0;">
-          <img src="${member.qr || ''}" width="110" style="background: white; border: 1px solid #ddd; padding: 8px; border-radius: 8px;">
+          <img src="${member.qr || ''}" width="120" style="background:white; padding:8px; border-radius:10px; border:1px solid #eee;">
         </div>
 
-        <div style="margin-top: 10px;">
-          ${telegramButton}
-        </div>
-
+        ${telegramButton}
       </div>
     `;
 
   } catch (error) {
-    console.error("Fetch Error:", error);
-    resultDiv.innerHTML = "<p style='color:red;'>❌ Connection error. Check your internet.</p>";
+    console.error(error);
+    resultDiv.innerHTML = "<p style='color:red;'>❌ Connection error.</p>";
   }
 }
