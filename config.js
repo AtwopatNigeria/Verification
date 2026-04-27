@@ -2,4 +2,4 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzsFfOF0p_u7O2TkkR1AhMu
 
 
 
-**/ "https://script.google.com/macros/s/AKfycbzsFfOF0p_u7O2TkkR1AhMuWnjvNKZOOyi-cuD0uDURnYQt5CQaNDfrILz7Da86yMzYUA/exec"; *//
+**/ "https://script.google.com/macros/s/AKfycbzsFfOF0p_u7O2TkkR1AhMuWnjvNKZOOyi-cuD0uDURnYQt5CQaNDfrILz7Da86yMzYUA/exec"; /**
