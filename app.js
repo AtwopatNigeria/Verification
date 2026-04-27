@@ -14,18 +14,38 @@ async function verifyMember(idOverride) {
     let response = await fetch(API_URL + "?id=" + encodeURIComponent(id));
     let data = await response.json();
 
-    if (!data || data.error) {
+    console.log("API RESPONSE:", data); // DEBUG (important)
+
+    if (!data || data.status === "NOT_FOUND") {
       resultDiv.innerHTML = "<p style='color:red;'>❌ Member not found</p>";
       return;
     }
 
-    /* NORMALIZE STATUS */
-    let status = (data.status || "").toString().trim().toLowerCase();
+    /* =========================
+       🔥 NORMALIZE API DATA
+    ========================= */
+
+    const member = {
+      id: data.memberId,
+      name: data.fullName,
+      state: data.state,
+      role: data.role,
+      statusRaw: data.memberStatus || data.status,
+      photo: data.passport,
+      qr: data.qr,
+      expiry: data.expiry,
+      expired: data.expired
+    };
+
+    let status = (member.statusRaw || "").toString().trim().toLowerCase();
 
     let statusDisplay = "";
     let telegramButton = "";
 
-    /* STATUS MAPPING */
+    /* =========================
+       STATUS LOGIC (IMPROVED)
+    ========================= */
+
     if (status === "active") {
 
       statusDisplay = `<img src="verify.png" class="badge-img">`;
@@ -77,24 +97,28 @@ async function verifyMember(idOverride) {
       `;
     }
 
-    /* FINAL UI */
+    /* =========================
+       FINAL OUTPUT
+    ========================= */
+
     resultDiv.innerHTML = `
       <div class="card">
 
         <h3>ATWOPAT MEMBER</h3>
 
-        <img src="${data.photo || ''}" width="120"><br><br>
+        <img src="${member.photo || ''}" width="120"><br><br>
 
-        <b>Name:</b> ${data.name || 'N/A'} <br>
-        <b>Role:</b> ${data.role || 'N/A'} <br>
-        <b>Member ID:</b> ${data.id || 'N/A'} <br>
+        <b>Name:</b> ${member.name || 'N/A'} <br>
+        <b>State:</b> ${member.state || 'N/A'} <br>
+        <b>Role:</b> ${member.role || 'N/A'} <br>
+
+        <b>Member ID:</b> ${member.id || 'N/A'} <br>
 
         <b>Status:</b> ${data.status || 'N/A'} ${statusDisplay} <br><br>
 
-        <b>Registration Date:</b> ${data.timestamp || 'N/A'} <br>
-        <b>Expiry Date:</b> ${data.expiry || 'N/A'} <br><br>
+        <b>Expiry Date:</b> ${member.expiry || 'N/A'} <br><br>
 
-        <img src="${data.qr || ''}" width="120"><br><br>
+        <img src="${member.qr || ''}" width="120"><br><br>
 
         ${telegramButton}
 
@@ -105,30 +129,4 @@ async function verifyMember(idOverride) {
     console.error(error);
     resultDiv.innerHTML = "<p style='color:red;'>❌ Error fetching member data</p>";
   }
-}
-
-
-/* QR SCANNER */
-function startScanner() {
-  const scanner = new Html5Qrcode("reader");
-
-  scanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
-    (text) => {
-
-      try {
-        let url = new URL(text);
-        let id = url.searchParams.get("id");
-
-        if (id) {
-          verifyMember(id);
-          scanner.stop();
-        }
-
-      } catch (e) {
-        alert("Invalid QR");
-      }
-    }
-  );
 }
