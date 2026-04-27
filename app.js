@@ -7,14 +7,16 @@ async function verifyMember(idOverride) {
   }
 
   const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = "<p style='color:#666;'>🔄 Verifying...</p>";
+  
+  // UPDATED: Your new white loading text
+  resultDiv.innerHTML = "<p style='color:white; font-weight:bold;'>Please wait...🤸</p>";
 
   try {
     let response = await fetch(API_URL + "?action=verify&id=" + encodeURIComponent(id));
     let data = await response.json();
 
     if (!data || data.status === "NOT_FOUND" || data.status === "ERROR") {
-      resultDiv.innerHTML = "<p style='color:red;'>❌ Member not found</p>";
+      resultDiv.innerHTML = "<p style='color:red; background:white; padding:10px; border-radius:5px;'>❌ Member not found</p>";
       return;
     }
 
@@ -41,9 +43,8 @@ async function verifyMember(idOverride) {
     let telegramButton = "";
 
     if (currentStatus === "active" && !member.expired) {
-      // Increased badge size to 24px for better visibility
       nameBadge = `<img src="verify.png" style="width:24px; height:24px; margin-left: 8px;">`;
-      statusText = `<span style="color:green; font-weight:bold;">Active</span>`;
+      statusText = `<span style="color:#008000; font-weight:bold;">Active</span>`;
       telegramButton = `
         <a href="https://t.me/+0qCgEbssFKw3ZmM0" target="_blank" style="text-decoration:none;">
           <button style="background:#0088cc; color:white; width:100%; padding:14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:15px;">
@@ -55,44 +56,44 @@ async function verifyMember(idOverride) {
     }
 
     /* =============================================
-       FINAL UI OUTPUT (Modern Frosted Glass)
+       FINAL UI OUTPUT (More Transparent)
     ============================================= */
     resultDiv.innerHTML = `
       <div class="card" style="
-        background: rgba(255, 255, 255, 0.75); /* Transparency */
-        backdrop-filter: blur(12px); /* Frosted effect */
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.45); /* MORE TRANSPARENT: 0.45 instead of 0.75 */
+        backdrop-filter: blur(15px); /* Stronger blur for better readability */
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
         padding: 25px; 
         border-radius: 20px; 
         max-width: 340px; 
         margin: auto; 
         text-align: center;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         font-family: sans-serif;">
         
-        <h3 style="margin: 0 0 15px 0; color:#333; letter-spacing:1px;">ATWOPAT MEMBER</h3>
+        <h3 style="margin: 0 0 15px 0; color:#111; letter-spacing:1px;">ATWOPAT MEMBER</h3>
         
-        <img src="${member.photo}" width="140" height="140" style="border-radius: 15px; border: 4px solid white; object-fit: cover; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <img src="${member.photo}" width="140" height="140" style="border-radius: 15px; border: 3px solid rgba(255,255,255,0.8); object-fit: cover; margin-bottom: 20px;">
 
-        <div style="text-align: left; color: #333; font-size: 16px;">
+        <div style="text-align: left; color: #000; font-size: 16px;">
           
-          <div style="display: flex; align-items: center; margin-bottom: 8px;">
-            <b style="min-width: 60px;">Name:</b>
-            <span style="display: flex; align-items: center; font-weight: 500;">
+          <div style="display: flex; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;">
+            <b style="min-width: 65px;">Name:</b>
+            <span style="display: flex; align-items: center; font-weight: 600;">
               ${member.name}${nameBadge}
             </span>
           </div>
 
-          <p style="margin: 8px 0;"><b>State:</b> ${member.state}</p>
-          <p style="margin: 8px 0;"><b>Role:</b> ${member.role}</p>
-          <p style="margin: 8px 0;"><b>Member ID:</b> ${member.id}</p>
-          <p style="margin: 8px 0;"><b>Status:</b> ${statusText}</p>
+          <p style="margin: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;"><b>State:</b> ${member.state}</p>
+          <p style="margin: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;"><b>Role:</b> ${member.role}</p>
+          <p style="margin: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;"><b>Member ID:</b> ${member.id}</p>
+          <p style="margin: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;"><b>Status:</b> ${statusText}</p>
           <p style="margin: 8px 0;"><b>Expiry:</b> ${member.expiry || 'N/A'}</p>
         </div>
 
         <div style="margin: 20px 0;">
-          <img src="${member.qr || ''}" width="120" style="background:white; padding:8px; border-radius:10px; border:1px solid #eee;">
+          <img src="${member.qr || ''}" width="110" style="background:white; padding:8px; border-radius:10px; border:1px solid #ddd;">
         </div>
 
         ${telegramButton}
@@ -101,6 +102,6 @@ async function verifyMember(idOverride) {
 
   } catch (error) {
     console.error(error);
-    resultDiv.innerHTML = "<p style='color:red;'>❌ Connection error.</p>";
+    resultDiv.innerHTML = "<p style='color:red; background:white;'>❌ Connection error.</p>";
   }
 }
