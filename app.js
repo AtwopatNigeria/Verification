@@ -7,9 +7,7 @@ async function verifyMember(idOverride) {
   }
 
   const resultDiv = document.getElementById("result");
-  
-  // UPDATED: Your new white loading text
-  resultDiv.innerHTML = "<p style='color:white; font-weight:bold;'>Please wait...🤸</p>";
+  resultDiv.innerHTML = "<p style='color:white; font-weight:bold;'>Please wait...</p>";
 
   try {
     let response = await fetch(API_URL + "?action=verify&id=" + encodeURIComponent(id));
@@ -20,10 +18,34 @@ async function verifyMember(idOverride) {
       return;
     }
 
-    // --- Image Link Transformer ---
+    /* =============================================
+       🔥 UPGRADED IMAGE LINK TRANSFORMER
+       Captures both ?id= format and /d/ format
+    ============================================= */
     let rawPhoto = data.passport || '';
-    let fileId = rawPhoto.match(/\/d\/(.+?)\//);
-    let directPhoto = fileId ? `https://lh3.googleusercontent.com/d/${fileId[1]}` : 'default-avatar.png';
+    let directPhoto = "default-avatar.png"; // Failsafe image
+
+    if (rawPhoto.includes("drive.google.com")) {
+        let fileId = "";
+        
+        // 1. Check for the ?id= format
+        if (rawPhoto.includes("id=")) {
+            fileId = rawPhoto.split("id=")[1].split("&")[0];
+        } 
+        // 2. Check for the /file/d/ format
+        else if (rawPhoto.match(/\/d\/(.+?)\//)) {
+            fileId = rawPhoto.match(/\/d\/(.+?)\//)[1];
+        }
+
+        // 3. Build the highly reliable direct display URL
+        if (fileId) {
+            directPhoto = `https://drive.google.com/uc?export=view&id=${fileId}`;
+        } else {
+            directPhoto = rawPhoto;
+        }
+    } else if (rawPhoto) {
+        directPhoto = rawPhoto;
+    }
 
     const member = {
       id: data.memberId,
@@ -56,14 +78,14 @@ async function verifyMember(idOverride) {
     }
 
     /* =============================================
-       FINAL UI OUTPUT (More Transparent)
+       FINAL UI OUTPUT (Frosted Glass Design)
     ============================================= */
     resultDiv.innerHTML = `
       <div class="card" style="
-        background: rgba(255, 255, 255, 0.45); /* MORE TRANSPARENT: 0.45 instead of 0.75 */
-        backdrop-filter: blur(15px); /* Stronger blur for better readability */
+        background: rgba(255, 255, 255, 0.45); 
+        backdrop-filter: blur(15px); 
         -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
+        border: 1px solid rgba(255, 255, 255, 0.2); 
         padding: 25px; 
         border-radius: 20px; 
         max-width: 340px; 
