@@ -7,7 +7,7 @@ async function verifyMember(idOverride) {
   }
 
   const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = "<p style='color:white; font-weight:bold;'>Please wait...</p>";
+  resultDiv.innerHTML = "<p style='color:white; font-weight:bold;'>Please wait...🤸</p>";
 
   try {
     let response = await fetch(API_URL + "?action=verify&id=" + encodeURIComponent(id));
