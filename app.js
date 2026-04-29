@@ -115,13 +115,13 @@ async function verifyMember(idOverride) {
         box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         font-family: 'Segoe UI', Tahoma, sans-serif;">
         
-        <h3 style="margin: 0 0 15px 0; color:#111; letter-spacing:1.5px; font-size: 18px;">ATWOPAT MEMBER</h3>
+        <h3 style="margin: 0 0 15px 0; color:#111; letter-spacing:1.5px; font-size: 20px;">ATWOPAT MEMBER</h3>
         
-        <div style="width: 150px; height: 180px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-          <img src="${member.photo}" style="display:block; width:100%; height:100%; object-fit: fill; object-position:center;"
-
- onerror="this.src='default-avatar.png';">
-        </div>
+        <div style="width: 150px; height: 190px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background-color: #f0f0f0;">
+  <img src="${member.photo}" 
+       style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transform-origin: center;" 
+       onerror="this.src='default-avatar.png';">
+       </div>
 
         <div style="text-align: left; color: #111; font-size: 15px; line-height: 1.8;">
           <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: 5px 0; display: flex; align-items: center;">
