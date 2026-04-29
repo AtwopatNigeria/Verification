@@ -117,11 +117,11 @@ async function verifyMember(idOverride) {
         
         <h3 style="margin: 0 0 15px 0; color:#111; letter-spacing:1.5px; font-size: 20px;">ATWOPAT MEMBER</h3>
         
-        <div style="width: 150px; height: 190px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background-color: #f0f0f0;">
+        <div style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; display: flex; align-items: center; justify-content: center;">
   <img src="${member.photo}" 
-       style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transform-origin: center;" 
+       style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;" 
        onerror="this.src='default-avatar.png';">
-       </div>
+        </div>
 
         <div style="text-align: left; color: #111; font-size: 15px; line-height: 1.8;">
           <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: 5px 0; display: flex; align-items: center;">
