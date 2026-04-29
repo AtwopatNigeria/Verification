@@ -17,7 +17,7 @@ async function verifyMember(idOverride) {
   resultDiv.innerHTML = `
     <div style="text-align:center; padding:20px;">
       <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #0088cc; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: auto;"></div>
-      <p style="color:white; font-weight:bold; margin-top:10px;">Please wait...🤸</p>
+      <p style="color:white; font-weight:bold; margin-top:15px;">Please wait...🤸</p>
     </div>
     <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
   `;
