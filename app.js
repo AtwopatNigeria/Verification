@@ -36,37 +36,29 @@ async function verifyMember(idOverride) {
 
     /* =============================================
        🚀 ULTIMATE IMAGE LINK TRANSFORMER
-       Bypasses Google Drive's strict preview blocks
     ============================================= */
     let rawPhoto = data.passport || '';
-    let directPhoto = "default-avatar.png"; // Failsafe local image
+    let directPhoto = "default-avatar.png"; 
 
     if (rawPhoto) {
         let fileId = "";
-        
-        // Match ?id= format
         if (rawPhoto.includes("id=")) {
             fileId = rawPhoto.split("id=")[1].split("&")[0];
         } 
-        // Match /d/ format
         else if (rawPhoto.match(/\/d\/(.+?)\//)) {
             fileId = rawPhoto.match(/\/d\/(.+?)\//)[1];
         }
-        // Match raw ID strings
         else if (rawPhoto.length > 20 && !rawPhoto.includes("http")) {
             fileId = rawPhoto.trim();
         }
 
         if (fileId) {
-            // This URL forces Google to serve the file as a raw image stream
-            // Added a cache-buster timestamp (?t=) to ensure fresh loading
-            directPhoto = `https://lh3.googleusercontent.com/d/${fileId}?t=${new Date().getTime()}`;
+            directPhoto = `https://lh3.googleusercontent.com/u/0/d/${fileId}?t=${new Date().getTime()}`;
         } else {
             directPhoto = rawPhoto;
         }
     }
 
-    // Prepare Member Data
     const member = {
       id: data.memberId || 'N/A',
       name: data.fullName || 'Unknown',
@@ -79,7 +71,6 @@ async function verifyMember(idOverride) {
       expired: data.expired || false
     };
 
-    // UI Logic for Status & Badges
     let currentStatus = (member.statusValue).toString().trim().toLowerCase();
     let nameBadge = ""; 
     let statusDisplay = "";
@@ -117,10 +108,10 @@ async function verifyMember(idOverride) {
         
         <h3 style="margin: 0 0 15px 0; color:#111; letter-spacing:1.5px; font-size: 20px;">ATWOPAT MEMBER</h3>
         
-        <div style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 10px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; display: flex; align-items: center; justify-content: center; padding:0px;">
-  <img src="${member.photo}" 
-       style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; padding: 0px;" 
-       onerror="this.src='default-avatar.png';">
+        <div style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; display: flex; align-items: flex-start; justify-content: center; padding: 0;">
+          <img src="${member.photo}" 
+               style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; border: none;" 
+               onerror="this.src='default-avatar.png';">
         </div>
 
         <div style="text-align: left; color: #111; font-size: 15px; line-height: 1.8;">
