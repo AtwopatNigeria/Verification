@@ -80,7 +80,7 @@ async function verifyMember(idOverride) {
       nameBadge = `<img src="verify.png" style="width:22px; height:22px; margin-left:8px;" title="Verified">`;
       statusDisplay = `<span style="color:#008000; font-weight:bold;">Active</span>`;
       actionButton = `
-        <a href="https://t.me/+0qCgEbssFKw3ZmM0" target="_blank" style="text-decoration:none;">
+        <a href="https://t.me/+h5MQcjoEOlMyNzdk" target="_blank" style="text-decoration:none;">
           <button style="background:#0088cc; color:white; width:100%; padding:14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:15px; transition: 0.3s;">
             Join Official Telegram
           </button>
