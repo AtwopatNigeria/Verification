@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to ATWOPAT Official Website...</title>
     
-    <meta http-equiv="refresh" content="0;url=https://atwopat.org.ng/">
+    <!-- Changed content="0;..." to content="2;..." to delay the HTML fallback redirect -->
+    <meta http-equiv="refresh" content="2;url=https://atwopat.org.ng/">
     
     <style>
         body {
@@ -45,7 +46,10 @@
     </div>
 
     <script>
-        window.location.href = "https://atwopat.org.ng/";
+        // Wrapped the redirect in a setTimeout function to delay it by 2000 milliseconds (2 seconds)
+        setTimeout(function() {
+            window.location.href = "https://atwopat.org.ng/";
+        }, 2000);
     </script>
 </body>
 </html>
